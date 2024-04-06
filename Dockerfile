@@ -1,8 +1,6 @@
 # Use the official Node.js LTS (Long Term Support) image as the base image
 FROM node:lts-bookworm-slim AS frontend-build
 
-
-
 # Copy the client directory into the build context
 COPY ./client /frontend
 
@@ -20,11 +18,12 @@ WORKDIR /app
 # Copy the server directory into the build context
 COPY ./server /app
 
-
 RUN npm install
 
 # Copy the built frontend files
 COPY --from=frontend-build /frontend/dist /app/dist
+
+RUN npm run build
 
 # Expose the port the app runs on
 EXPOSE 3000
